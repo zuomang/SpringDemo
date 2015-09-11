@@ -1,0 +1,16 @@
+.outdiv {
+    top: 50px;
+    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+}
+.div-header {
+    text-align: center;
+}
+hr {
+    padding: 0px;
+    margin: 15px 0px;
+}
+
+#content {
+    margin-top: 10px;
+}
