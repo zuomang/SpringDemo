@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
  * Created by Mang on 9/10/15.
  */
 public class StringHandle {
-    public static void MD5Hashing(String password) {
+    public static String MD5Hashing(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
@@ -20,9 +20,10 @@ public class StringHandle {
                     hexString.append('0');
                 hexString.append(hex);
             }
-            password = hexString.toString();
+            return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            return "error";
         }
     }
 }

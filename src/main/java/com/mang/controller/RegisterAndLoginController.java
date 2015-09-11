@@ -30,9 +30,3 @@ public class RegisterAndLoginController {
     }
 
 }
-
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public String AddRegister(HttpServletRequest request, HttpServletResponse response) {
-//        String username = request.getParameter("username");
-//        return "test";
-//    }

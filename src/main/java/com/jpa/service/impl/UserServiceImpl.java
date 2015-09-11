@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
  */
 @Service("UserService")
 public class UserServiceImpl implements UserService{
+
     @Autowired
     UserDao userDao;
 
     public void RegisterUser(User user) {
-        StringHandle.MD5Hashing(user.getPassword());
+        user.setPassword(StringHandle.MD5Hashing(user.getPassword()));
         userDao.save(user);
     }
 }

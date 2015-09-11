@@ -18,6 +18,7 @@
 
     <context:component-scan base-package="com.jpa"/>
 
+    <!--配置spring jpa数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
         <property name="url"
@@ -26,9 +27,10 @@
         <property name="password" value="qwaszx12"></property>
     </bean>
 
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        <!--指定使用 hibernate 提供的 JPA 实现-->
+        <!--相比较META-INF 中设置的 persistence.xml 具有更高的优先级-->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="true" />
@@ -45,7 +47,6 @@
 
     <!-- 启用 annotation事务-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
 
     <!-- 配置Spring Data JPA扫描目录-->
     <jpa:repositories base-package="com.jpa"/>

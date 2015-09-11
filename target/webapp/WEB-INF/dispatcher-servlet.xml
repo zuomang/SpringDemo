@@ -13,16 +13,28 @@
 	<context:component-scan base-package="com.mang.controller" />
 
 	<!--配置spring mvc的视图工作方式-->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+	<!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+		<!--<property name="prefix">-->
+			<!--<value>/WEB-INF/views/</value>-->
+		<!--</property>-->
+		<!--<property name="suffix">-->
+			<!--<value>.jsp</value>-->
+		<!--</property>-->
+	<!--</bean>-->
+
 	<!--配置spring mvc对静态资源的处理过程-->
 	<mvc:resources mapping="/static/**" location="/WEB-INF/static/"></mvc:resources>
+
+	<!--使用 tiles 模板-->
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/views/**/views.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
+
 	<!--配置spring mvc使用约定大于配置-->
 	<mvc:annotation-driven></mvc:annotation-driven>
 </beans>
