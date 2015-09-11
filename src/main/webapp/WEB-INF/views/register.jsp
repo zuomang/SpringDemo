@@ -62,7 +62,7 @@
       <hr>
       <form method="post" action="/register">
         <div class="form-group">
-          <input type="text" name="username" class="form-control" placeholder="用户名">
+          <input type="text" name="name" class="form-control" placeholder="用户名">
         </div>
         <div class="form-group">
           <input type="email" name="email" class="form-control" placeholder="邮箱">
