@@ -25,7 +25,7 @@
           <input type="email" name="email" id="email" class="form-control" placeholder="邮箱">
         </div>
         <div class="form-group">
-          <input type="password" name="password" id="password" class="form-control" placeholder="密码">
+          <input type="password" name="password" id="password" minlength="2" class="form-control" placeholder="密码">
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-danger btn-sm btn-block">提交</button>
@@ -50,6 +50,9 @@
     $('.alert-warning').html("").hide();
     if (value.length == 0) {
       $('.alert-warning').html($(this).attr("placeholder") + "不能为空").show();
+    } else if ($(this).attr("id") == "name" && checkNameRepetition(value)) {
+      console.log("用户名唯一");
+
     }
 
     if (name.length > 0 && email.length > 0 && password.length > 0) {
@@ -58,4 +61,22 @@
       $('.btn-danger').attr("disabled", "disabled");
     }
   });
+
+  var checkNameRepetition = function(username) {
+    console.log(username);
+    var data = {
+      "name": username
+    };
+
+    $.ajax({
+      type : 'post',
+      url : '/register/checkName',
+      data : data,
+//      dataType : 'json',
+//      data : JSON.stringify(data),
+      success:function(result) {
+        console.log(result);
+      }
+    });
+  }
 </script>
