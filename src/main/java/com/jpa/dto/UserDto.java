@@ -1,16 +1,14 @@
 package com.jpa.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by Mang on 15/9/12.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     private String name;
-
-    public UserDto(String name) {
-        this.name = name;
-    }
-
-    public UserDto(){}
+    private String password;
 
     public String getName() {
         return name;
@@ -18,5 +16,13 @@ public class UserDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

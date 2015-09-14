@@ -1,6 +1,7 @@
 package com.mang.controller;
 
 import com.jpa.domain.User;
+import com.jpa.dto.UserDto;
 import com.jpa.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,4 +31,20 @@ public class RegisterAndLoginController {
         return "redirect:/index";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String ShowLoginPage() {
+        return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(UserDto user, HttpSession session) {
+        log.info("handler login username " + user.getName());
+        if (userService.LoginByName(user)) {
+            log.info("password valid success");
+            session.setAttribute("user", user);
+        } else {
+            log.info("passwrod valid fail");
+        }
+        return "redirect:/index";
+    }
 }

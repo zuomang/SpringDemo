@@ -33,7 +33,7 @@
         <!--相比较META-INF 中设置的 persistence.xml 具有更高的优先级-->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="generateDdl" value="true" />
+                <!--<property name="generateDdl" value="true" />-->
                 <property name="database" value="MYSQL" />
             </bean>
         </property>
