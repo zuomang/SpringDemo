@@ -26,7 +26,8 @@ public class RegisterAndLoginController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String AddRegister(User user, HttpSession session) {
         userService.RegisterUser(user);
-        return "register";
+        session.setAttribute("user", user);
+        return "redirect:/index";
     }
 
 }

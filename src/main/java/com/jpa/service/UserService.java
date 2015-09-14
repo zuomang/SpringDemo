@@ -7,4 +7,5 @@ import com.jpa.domain.User;
  */
 public interface UserService {
     public void RegisterUser(User user);
+    public int CheckByName(String name);
 }

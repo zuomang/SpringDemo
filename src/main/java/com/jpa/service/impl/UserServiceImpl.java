@@ -16,6 +16,11 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserDao userDao;
 
+    public int CheckByName(String name) {
+        int count = userDao.countByName(name);
+        return count;
+    }
+
     public void RegisterUser(User user) {
         user.setPassword(StringHandle.MD5Hashing(user.getPassword()));
         userDao.save(user);

@@ -37,6 +37,8 @@
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+  var checkFlag;
+
   $(function() {
     $('.btn-danger').attr({"disabled":"disabled"});
   });
@@ -47,36 +49,33 @@
     var email = $('#email').val().trim();
     var password = $('#password').val().trim();
 
-    $('.alert-warning').html("").hide();
+    $('.alert-warning').hide();
     if (value.length == 0) {
       $('.alert-warning').html($(this).attr("placeholder") + "不能为空").show();
-    } else if ($(this).attr("id") == "name" && checkNameRepetition(value)) {
-      console.log("用户名唯一");
+    } else if ($(this).attr("id") == "name") {
+      var data = {
+        "name" : value
+      };
 
+      //TODO:暂时无法解决表单验证时异步数据返回问题
+      $.ajax({
+        type : 'post',
+        url : '/register/checkName',
+        dataType : 'json',
+        async: false,
+        data : JSON.stringify(data),
+        contentType : 'application/json; charset=UTF-8',
+        success : function(result) {
+          $('.alert-warning').html(result.message).show();
+          checkFlag = (result.code == 'E0000' ? false : true);
+        }
+      })
     }
 
-    if (name.length > 0 && email.length > 0 && password.length > 0) {
+    if (name.length > 0 && email.length > 0 && password.length > 0 && checkFlag) {
       $('.btn-danger').removeAttr("disabled");
     } else {
       $('.btn-danger').attr("disabled", "disabled");
     }
   });
-
-  var checkNameRepetition = function(username) {
-    console.log(username);
-    var data = {
-      "name": username
-    };
-
-    $.ajax({
-      type : 'post',
-      url : '/register/checkName',
-      data : data,
-//      dataType : 'json',
-//      data : JSON.stringify(data),
-      success:function(result) {
-        console.log(result);
-      }
-    });
-  }
 </script>

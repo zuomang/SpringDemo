@@ -31,7 +31,7 @@
             <li><a href="#">注册</a></li>
           </core:when>
           <core:otherwise>
-            <li>${user.name}</li>
+            <li><a href="#">${user.name}</a></li>
           </core:otherwise>
         </core:choose>
       </ul>

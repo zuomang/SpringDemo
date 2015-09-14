@@ -1,33 +1,40 @@
 package com.mang.controller;
 
-import com.jpa.dao.UserDao;
-import com.jpa.domain.User;
+import com.jpa.dto.RestResponseData;
 import com.jpa.dto.UserDto;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-import java.util.HashMap;
-import java.util.Map;
+import com.jpa.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Mang on 15/9/12.
  */
-@Controller
+@RestController
 public class RestApiController {
 
-//    @RequestMapping(value = "/register/checkName", method = RequestMethod.POST)
-//    public @ResponseBody UserDto checkName(UserDto userDto) {
-//        System.out.println(userDto.getName());
-//        return userDto;
-//    }
-    
-//    @RequestMapping(value = "/register/checkName", method = RequestMethod.POST)
-//    public void checkName(UserDto userDto) {
-//        System.out.println(userDto.getName());
-//    }
+    @Autowired
+    UserService userService;
 
+    @RequestMapping(value = "/register/checkName", method = RequestMethod.GET)
+    public @ResponseBody UserDto GetName(@RequestParam String name) {
+        System.out.println(name);
+        UserDto userDto = new UserDto();
+        userDto.setName(name);
+        return userDto;
+    }
+
+    @RequestMapping(value = "/register/checkName", method = RequestMethod.POST)
+    public @ResponseBody RestResponseData<String> checkName(@RequestBody String data) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserDto userDto = new UserDto();
+        try {
+            userDto = objectMapper.readValue(data, UserDto.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int count = userService.CheckByName(userDto.getName());
+        return count == 1 ? new RestResponseData<String>("E0000", "用户名存在") :
+                new RestResponseData<String>("E0001", "用户名未注册");
+    }
 }
