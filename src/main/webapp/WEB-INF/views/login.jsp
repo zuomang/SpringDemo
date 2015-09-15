@@ -13,7 +13,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="alert alert-warning" role="alert" style="display: none"></div>
+    <div class="alert alert-warning" role="alert" style="display: none;"></div>
     <div class="col-md-4 col-md-offset-4 outdiv">
       <h4 class="div-header">登录</h4>
       <hr>
@@ -31,55 +31,76 @@
           <input type="password" class="form-control" id="password" name="password" placeholder="密码" aria-describedby="basic-addon2">
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-danger form-center">登录</button>
-          <a href="/register" class="btn btn-primary form-center" role="button">注册</a>
+          <p>
+            <button type="submit" class="btn btn-danger form-center">登录</button>
+            <a href="/register" class="btn btn-primary form-center" role="button">注册</a>
+          </p>
         </div>
       </form>
     </div>
   </div>
 </div>
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/jquery.validate.min.js"></script>
 <script style="text/javascript">
-  var checkFlag = "";
+  var checkName = function(response) {
+    var result = JSON.parse(response);
+    switch (result.code) {
+      case "E0000":
+        return true;
+        break;
+    }
+    return false;
+  };
 
-  $(function() {
-    $('.btn-danger').attr({"disabled":"disabled"});
-  });
+  $("#signupForm").validate({
+    debug: true,
+    onkeyup: false,
 
-  $('input').blur(function() {
-    var name = $('#name').val().trim();
-    var password = $('#password').val().trim();
-    $('.alert-warning').hide();
-
-    if($(this).attr("name") == "name") {
-      if(name.length == 0) {
-        $('.btn-danger').html("用户名不能为空").show();
-      } else {
-        var data = {
-          "name": name
-        };
-        $.ajax({
-          type: 'post',
-          url: '/register/checkName',
-          async: false,
-          data : JSON.stringify(data),
-          contentType : 'application/json; charset=UTF-8',
-          dataType : 'json',
-          success : function(result) {
-            if(result.code == "E0001")
-              $('.alert-warning').html("用户名不存在,请重试").show();
-            checkFlag = (result.code == 'E0000' ? true : false);
-          }
+    showErrors: function(errorMap, errorList) {
+      var errorStrings="";
+      console.log(errorList.length);
+      if (errorList.length > 0) {
+        errorList.forEach(function(element, index, array) {
+          errorStrings += "<li>" + element.message + "</li>";
         });
+        $(".alert-warning").html(errorStrings).show();
+      } else {
+        $(".alert-warning").hide();
+      }
+    },
+    submitHandler: function(form) {
+      form.submit();
+    },
+
+    rules: {
+      name: {
+        required: true,
+        remote: {
+          url: "/register/checkName",
+          type: "POST",
+          dataType: "json",
+          cache: false,
+          data: {
+            "name" : function() {return $("#name").val();}
+          },
+          dataFilter: function(response) {
+            return checkName(response);
+          }
+        }
+      },
+      password: {
+        required: true,
+        minlength: 8
+      }
+    },
+    messages: {
+      name: {
+        required: "用户名不能为空",
+        remote: "用户名未注册,请前往注册界面"
+      },
+      password: {
+        required: "密码不能为空",
+        minlength: "密码最低为{0}位"
       }
     }
-
-    if(name.length > 0 && password.length > 0 && checkFlag) {
-      $('.btn-danger').removeAttr("disabled");
-    } else {
-      $('.btn-danger').attr("disabled", "disabled");
-    }
-  })
+  });
 </script>

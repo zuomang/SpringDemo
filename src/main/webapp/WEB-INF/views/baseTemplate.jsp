@@ -15,6 +15,9 @@
   <link href="/static/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/css/starter-template.css" rel="stylesheet">
   <link href="/static/css/global.css" rel="stylesheet">
+  <script type="text/javascript" src="/static/js/jquery-1.11.3.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id="top">
