@@ -14,5 +14,3 @@
 <div class="container">
   <h1>首页测试</h1>
 </div>
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>

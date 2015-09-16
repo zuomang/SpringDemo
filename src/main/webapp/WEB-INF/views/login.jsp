@@ -31,10 +31,8 @@
           <input type="password" class="form-control" id="password" name="password" placeholder="密码" aria-describedby="basic-addon2">
         </div>
         <div class="form-group">
-          <p>
-            <button type="submit" class="btn btn-danger form-center">登录</button>
-            <a href="/register" class="btn btn-primary form-center" role="button">注册</a>
-          </p>
+          <button type="submit" class="btn btn-danger form-center">登录</button>
+          <a href="/register" class="btn btn-primary form-center" role="button">注册</a>
         </div>
       </form>
     </div>

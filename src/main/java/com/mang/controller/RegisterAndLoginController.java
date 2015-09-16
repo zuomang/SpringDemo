@@ -47,4 +47,12 @@ public class RegisterAndLoginController {
         }
         return "redirect:/index";
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        UserDto user = (UserDto)session.getAttribute("user");
+        log.info("user " + user.getName() + "logout");
+        session.removeAttribute("user");
+        return "redirect:/index";
+    }
 }
