@@ -9,8 +9,10 @@
 	   http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	   http://www.springframework.org/schema/mvc
 	   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
 	<!--自动扫描@controller 注解类-->
 	<context:component-scan base-package="com.mang.controller" />
+	<context:component-scan base-package="com.mang.HandlerInterceptor" />
 
 	<!--配置spring mvc的视图工作方式-->
 	<!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
@@ -31,6 +33,14 @@
 		</property>
 	</bean>
 	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
+
+	<!--配置 spring mvc 拦截器-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*"/>
+			<bean class="com.mang.HandlerInterceptor.LoginHandlerInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 
 	<!--配置spring mvc对静态资源的处理过程-->
