@@ -11,8 +11,7 @@
 <%@ taglib prefix="tags" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div class="container">
-  <div class="row">
+  <div class="row" id="content">
     <div class="alert alert-warning" role="alert" style="display: none;"></div>
     <div class="col-md-4 col-md-offset-4 outdiv">
       <h4 class="div-header">登录</h4>
@@ -37,7 +36,6 @@
       </form>
     </div>
   </div>
-</div>
 <script style="text/javascript">
   var checkName = function(response) {
     var result = JSON.parse(response);

@@ -20,10 +20,8 @@
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="top">
+<div class="container">
   <tiles:insertAttribute name="top"></tiles:insertAttribute>
-</div>
-<div id="content">
   <tiles:insertAttribute name="content"></tiles:insertAttribute>
 </div>
 </body>

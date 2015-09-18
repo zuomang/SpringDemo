@@ -25,7 +25,13 @@
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">活动</a></li>
-        <li><a href="#">题库</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">题库<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/question/choice">选择题</a></li>
+            <li><a href="/question/opinion">判断题</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <core:choose>

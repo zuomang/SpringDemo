@@ -1,24 +1,8 @@
-.outdiv {
-    top: 50px;
-    border: 1px solid #ddd;
-    background-color: #FFFFFF;
-}
-.div-header {
-    text-align: center;
-}
-hr {
-    padding: 0px;
-    margin: 15px 0px;
-}
+hr { padding: 0px; margin: 15px 0px; }
 
-#content {
-    margin-top: 10px;
-}
+.input-group { margin-bottom: 10px; }
+.form-center { margin-left: 23%; }
+.outdiv { top: 50px; border: 1px solid #ddd; background-color: #FFFFFF; }
+.div-header { text-align: center; }
 
-.input-group {
-    margin-bottom: 10px;
-}
-
-.form-center {
-    margin-left: 23%;
-}
+#content { margin-top: 20px;}

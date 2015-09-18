@@ -23,7 +23,7 @@ public class StringHandle {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return "error";
+            return null;
         }
     }
 }

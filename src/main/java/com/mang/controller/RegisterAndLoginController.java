@@ -39,11 +39,13 @@ public class RegisterAndLoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(UserDto user, HttpSession session) {
         log.info("handler login username " + user.getName());
+
         if (userService.LoginByName(user)) {
             log.info("password valid success");
             session.setAttribute("user", user);
         } else {
             log.info("passwrod valid fail");
+            return "redirect:/login";
         }
         return "redirect:/index";
     }
@@ -52,7 +54,8 @@ public class RegisterAndLoginController {
     public String logout(HttpSession session) {
         UserDto user = (UserDto)session.getAttribute("user");
         log.info("user " + user.getName() + "logout");
-        session.removeAttribute("user");
+//        session.removeAttribute("user");
+        session.invalidate();
         return "redirect:/index";
     }
 }

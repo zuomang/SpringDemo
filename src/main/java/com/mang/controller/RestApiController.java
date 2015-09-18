@@ -37,18 +37,4 @@ public class RestApiController {
                     new RestResponseData<String>("E0001", "用户名未注册");
         }
     }
-
-//    @RequestMapping(value = "/register/checkName", method = RequestMethod.POST)
-//    public @ResponseBody RestResponseData<String> checkName(@RequestBody String data) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        UserDto userDto = new UserDto();
-//        try {
-//            userDto = objectMapper.readValue(data, UserDto.class);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        int count = userService.CheckByName(userDto.getName());
-//        return count == 1 ? new RestResponseData<String>("E0000", "用户名存在") :
-//                new RestResponseData<String>("E0001", "用户名未注册");
-//    }
 }

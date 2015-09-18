@@ -18,4 +18,8 @@
     <definition name="index" extends="template">
         <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
     </definition>
+
+    <definition name="choice" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/choice.jsp" />
+    </definition>
 </tiles-definitions>

@@ -11,13 +11,12 @@
 <%@ taglib prefix="tags" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div class="container">
-  <div class="row">
+  <div class="row" id="content">
     <div class="alert alert-warning" role="alert" style="display: none"></div>
     <div class="col-md-4 col-md-offset-4 outdiv">
       <h4 class="div-header">欢迎注册</h4>
       <hr>
-      <form method="post" action="/register">
+      <form id="registerForm" method="post" action="/register">
         <div class="form-group">
           <input type="text" name="name" id="name" class="form-control" placeholder="用户名">
         </div>
@@ -33,49 +32,76 @@
       </form>
     </div>
   </div>
-</div>
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
-  var checkFlag;
-
-  $(function() {
-    $('.btn-danger').attr({"disabled":"disabled"});
-  });
-
-  $('input').blur(function() {
-    var value = $.trim($(this).val());
-    var name = $('#name').val().trim();
-    var email = $('#email').val().trim();
-    var password = $('#password').val().trim();
-
-    $('.alert-warning').hide();
-    if (value.length == 0) {
-      $('.alert-warning').html($(this).attr("placeholder") + "不能为空").show();
-    } else if ($(this).attr("id") == "name") {
-      var data = {
-        "name" : value
-      };
-
-      //TODO:暂时无法解决表单验证时异步数据返回问题
-      $.ajax({
-        type : 'post',
-        url : '/register/checkName',
-        dataType : 'json',
-        async: false,
-        data : JSON.stringify(data),
-        contentType : 'application/json; charset=UTF-8',
-        success : function(result) {
-          $('.alert-warning').html(result.message).show();
-          checkFlag = (result.code == 'E0000' ? false : true);
-        }
-      })
+  var checkName = function(response) {
+    var result = JSON.parse(response);
+    switch (result.code) {
+      case "E0001":
+        return true;
+        break;
     }
+    return false;
+  };
 
-    if (name.length > 0 && email.length > 0 && password.length > 0 && checkFlag) {
-      $('.btn-danger').removeAttr("disabled");
-    } else {
-      $('.btn-danger').attr("disabled", "disabled");
+  $("#registerForm").validate({
+    debug: true,
+    onkeyup: false,
+
+    showErrors: function(errorMap, errorList) {
+      var errorStrings="";
+      console.log(errorList.length);
+      if (errorList.length > 0) {
+        errorList.forEach(function(element, index, array) {
+          errorStrings += "<li>" + element.message + "</li>";
+        });
+        $(".alert-warning").html(errorStrings).show();
+      } else {
+        $(".alert-warning").hide();
+      }
+    },
+    submitHandler: function(form) {
+      form.submit();
+    },
+
+    rules: {
+      name: {
+        required: true,
+        remote: {
+          url: "/register/checkName",
+          type: "POST",
+          dataType: "json",
+          cache: false,
+          data: {
+            "name" : function() {return $("#name").val();}
+          },
+          dataFilter: function(response) {
+            return checkName(response);
+          }
+        }
+      },
+      email: {
+        required: true,
+        email: true
+      },
+      password: {
+        required: true,
+        minlength: 8
+      }
+    },
+    messages: {
+      name: {
+        required: "用户名不能为空",
+        remote: "该用户已经存在,请使用其他用户名"
+      },
+      email: {
+        required: "邮箱不能为空",
+        email: "请输入正确的邮箱格式"
+      },
+      password: {
+        required: "密码不能为空",
+        minlength: "密码最低为{0}位"
+      }
     }
   });
 </script>
