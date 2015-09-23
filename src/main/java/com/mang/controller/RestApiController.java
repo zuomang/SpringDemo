@@ -1,9 +1,12 @@
 package com.mang.controller;
 
+import com.jpa.domain.Choice;
 import com.jpa.dto.RestResponseData;
 import com.jpa.dto.UserDto;
+import com.jpa.service.ChoiceService;
 import com.jpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +20,9 @@ public class RestApiController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ChoiceService choiceService;
 
     @RequestMapping(value = "/register/checkName", method = RequestMethod.GET)
     public @ResponseBody UserDto GetName(@RequestParam String name) {
