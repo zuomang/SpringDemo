@@ -43,4 +43,10 @@ public class RestApiController {
                     new RestResponseData<String>("E0001", "用户名未注册");
         }
     }
+
+    @RequestMapping(value = "/question/choice/{libraryId}/{offset}", method = RequestMethod.GET)
+    public @ResponseBody Page<Choice> getChoiceById(@PathVariable int libraryId,
+                                                    @PathVariable int offset) {
+        return choiceService.getChoice(libraryId, offset, 5);
+    }
 }
