@@ -22,4 +22,8 @@
     <definition name="choice" extends="template">
         <put-attribute name="content" value="/WEB-INF/views/choice.jsp" />
     </definition>
+
+    <definition name="practice" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/practice.jsp" />
+    </definition>
 </tiles-definitions>

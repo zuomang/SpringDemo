@@ -1,7 +1,12 @@
 package com.mang.controller;
 
+import com.jpa.domain.PracticeLog;
 import com.jpa.domain.QuestionLibrary;
+import com.jpa.domain.User;
+import com.jpa.dto.UserDto;
+import com.jpa.service.PracticeLogService;
 import com.jpa.service.QuestionLibraryService;
+import com.sun.javafx.sg.prism.NGShape;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,9 @@ public class QuestionController {
     @Autowired
     QuestionLibraryService questionLibraryService;
 
+    @Autowired
+    PracticeLogService practiceLogService;
+
     @RequestMapping(value = "/choice", method = RequestMethod.GET)
     public ModelAndView showChoicePage(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView("choice");
@@ -39,8 +48,15 @@ public class QuestionController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "/choice/answer/{questionId}", method = RequestMethod.GET)
-//    public ModelAndView showChoiceQuestionPage(@PathVariable String questionId) {
-//
-//    }
+    @RequestMapping(value = "/{questionType}/practice/{libraryId}", method = RequestMethod.GET)
+    public ModelAndView practice(@PathVariable String questionType,
+                                 @PathVariable String libraryId) {
+        ModelAndView modelAndView = new ModelAndView("practice");
+        Map<String, String> urlVariable = new HashMap<String, String>();
+        urlVariable.put("questionType", questionType);
+        urlVariable.put("libraryId", libraryId);
+        modelAndView.addObject("urlVariable", urlVariable);
+
+        return  modelAndView;
+    }
 }

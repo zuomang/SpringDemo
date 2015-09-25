@@ -27,14 +27,12 @@ public class UserServiceImpl implements UserService{
         userDao.save(user);
     }
 
-    public boolean LoginByName(UserDto user) {
-        User userdb = userDao.findByName(user.getName());
-        System.out.println(userdb.getName() + userdb.getPassword() + userdb.getEmail());
-        System.out.println(user.getPassword());
-        String userPasswrod = StringHandle.MD5Hashing(user.getPassword());
-        if (userPasswrod.equals(userdb.getPassword()))
-            return true;
+    public User LoginByName(UserDto userDto) {
+        User user = userDao.findByName(userDto.getName());
+        String userPasswrod = StringHandle.MD5Hashing(userDto.getPassword());
+        if (userPasswrod.equals(user.getPassword()))
+            return user;
         else
-            return false;
+            return null;
     }
 }

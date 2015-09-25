@@ -6,3 +6,6 @@ hr { padding: 0px; margin: 15px 0px; }
 .div-header { text-align: center; }
 
 #content { margin-top: 20px;}
+#question { margin-left: 20px; margin-right: 20px; float: left; }
+.panel-body .col-md-2 { height: 240px; line-height: 240px; }
+#next { margin-top: 100px; }

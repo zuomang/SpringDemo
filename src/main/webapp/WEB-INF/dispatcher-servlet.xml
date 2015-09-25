@@ -35,12 +35,12 @@
 	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
 
 	<!--配置 spring mvc 拦截器-->
-	<!--<mvc:interceptors>-->
-		<!--<mvc:interceptor>-->
-			<!--<mvc:mapping path="/*"/>-->
-			<!--<bean class="com.mang.HandlerInterceptor.LoginHandlerInterceptor" />-->
-		<!--</mvc:interceptor>-->
-	<!--</mvc:interceptors>-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*"/>
+			<bean class="com.mang.HandlerInterceptor.LoginHandlerInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 
 	<!--配置spring mvc对静态资源的处理过程-->

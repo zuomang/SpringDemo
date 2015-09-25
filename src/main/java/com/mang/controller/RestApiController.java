@@ -1,16 +1,21 @@
 package com.mang.controller;
 
 import com.jpa.domain.Choice;
+import com.jpa.domain.PracticeLog;
+import com.jpa.domain.User;
 import com.jpa.dto.RestResponseData;
 import com.jpa.dto.UserDto;
 import com.jpa.service.ChoiceService;
+import com.jpa.service.PracticeLogService;
 import com.jpa.service.UserService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by Mang on 15/9/12.
@@ -23,6 +28,9 @@ public class RestApiController {
 
     @Autowired
     ChoiceService choiceService;
+
+    @Autowired
+    PracticeLogService practiceLogService;
 
     @RequestMapping(value = "/register/checkName", method = RequestMethod.GET)
     public @ResponseBody UserDto GetName(@RequestParam String name) {
@@ -44,9 +52,12 @@ public class RestApiController {
         }
     }
 
-    @RequestMapping(value = "/question/choice/{libraryId}/{offset}", method = RequestMethod.GET)
+    @RequestMapping(value = "/question/choice/{libraryId}/offset", method = RequestMethod.GET)
     public @ResponseBody Page<Choice> getChoiceById(@PathVariable int libraryId,
-                                                    @PathVariable int offset) {
-        return choiceService.getChoice(libraryId, offset, 5);
+                                                    HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        PracticeLog practiceLog = practiceLogService.findByUserId(user.getId(), libraryId, "choice");
+
+        return choiceService.getChoice(libraryId, practiceLog.getQuestionOffset(), 5);
     }
 }

@@ -21,6 +21,8 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
         if (request.getServletPath().startsWith("/login") || request.getSession().getAttribute("user") != null)
             return true;
 
+        System.out.println("---------------------------------------");
+        System.out.println("LoginHandlerInterceptor");
         response.sendRedirect("/login");
         return false;
     }
