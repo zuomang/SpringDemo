@@ -37,8 +37,17 @@
 	<!--配置 spring mvc 拦截器-->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/*"/>
-			<bean class="com.mang.HandlerInterceptor.LoginHandlerInterceptor" />
+			<mvc:mapping path="/**" />
+			<bean class="com.mang.HandlerInterceptor.LoginHandlerInterceptor">
+				<property name="allowUrls">
+					<list>
+						<value>/static</value>
+						<value>/login</value>
+						<value>/register</value>
+						<value>/logout</value>
+					</list>
+				</property>
+			</bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 
