@@ -52,7 +52,7 @@ public class RegisterAndLoginController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
-        UserDto user = (UserDto)session.getAttribute("user");
+        User user = (User)session.getAttribute("user");
         log.info("user " + user.getName() + "logout");
         session.invalidate();
         return "redirect:/index";
