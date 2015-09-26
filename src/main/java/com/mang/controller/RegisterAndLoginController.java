@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -32,17 +33,23 @@ public class RegisterAndLoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String ShowLoginPage() {
+    public String ShowLoginPage(HttpServletRequest request) {
         return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(UserDto userDto, HttpSession session) {
+    public String login(UserDto userDto,
+                        HttpServletRequest request,
+                        HttpSession session) {
         log.info("handler login username " + userDto.getName());
         User user = userService.LoginByName(userDto);
         if (user != null) {
             log.info("password valid success");
             session.setAttribute("user", user);
+            if (!request.getHeader("Referer").contains("login")) {
+                String temp = request.getHeader("Referer").substring(21);
+                return "redirect:" + temp;
+            }
         } else {
             log.info("passwrod valid fail");
             return "redirect:/login";

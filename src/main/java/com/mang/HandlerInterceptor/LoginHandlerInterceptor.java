@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +43,9 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
             return true;
         }
 
-        response.sendRedirect("/login");
+        RequestDispatcher view = request.getRequestDispatcher("/login");
+        view.forward(request, response);
+
         return false;
     }
 

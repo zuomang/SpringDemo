@@ -45,6 +45,7 @@
 						<value>/login</value>
 						<value>/register</value>
 						<value>/logout</value>
+						<value>/index</value>
 					</list>
 				</property>
 			</bean>
