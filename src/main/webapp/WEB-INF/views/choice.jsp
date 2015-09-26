@@ -31,8 +31,8 @@
                     <p><small>${library.content}</small></p>
                     <p><small>题数: ${library.countChoice}</small></p>
                     <p>
-                      <a href="#" class="btn btn-primary" role="button">练习</a>
-                      <a href="#" class="btn btn-default" role="button">错题</a>
+                      <a href="/question/choice/practice/${library.ID}" class="btn btn-primary" role="button">练习</a>
+                      <a href="/question/choice/practice/${library.ID}" class="btn btn-default" role="button">错题</a>
                     </p>
                   </div>
                 </div>
