@@ -34,14 +34,15 @@
   </div>
 
 <script type="text/javascript">
-  var checkName = function(response) {
+  var checkUnique = function(response) {
     var result = JSON.parse(response);
     switch (result.code) {
       case "E0001":
         return true;
         break;
+      default:
+        return false;
     }
-    return false;
   };
 
   $("#registerForm").validate({
@@ -61,7 +62,21 @@
       }
     },
     submitHandler: function(form) {
-      form.submit();
+      var data = {
+        "name": $("#name").val(),
+        "password": $("#password").val(),
+        "email": $("#email").val()
+      };
+
+      $.post('/register', data, function(response) {
+        if (response.code == "E0000") {
+          console.log("register success");
+          location.href = response.message;
+        } else {
+          $(".alert-warning").html(response.message).show();
+          console.log("login error");
+        }
+      })
     },
 
     rules: {
@@ -76,13 +91,25 @@
             "name" : function() {return $("#name").val();}
           },
           dataFilter: function(response) {
-            return checkName(response);
+            return checkUnique(response);
           }
         }
       },
       email: {
         required: true,
-        email: true
+        email: true,
+        remote: {
+          url: "/register/checkEmail",
+          type: "POST",
+          dataType: "json",
+          cache: false,
+          data: {
+            "email": function() { return $("#email").val(); }
+          },
+          dataFilter: function(response) {
+            return checkUnique(response);
+          }
+        }
       },
       password: {
         required: true,
@@ -96,7 +123,8 @@
       },
       email: {
         required: "邮箱不能为空",
-        email: "请输入正确的邮箱格式"
+        email: "请输入正确的邮箱格式",
+        remote: "该邮箱已经注册，请使用其他邮箱"
       },
       password: {
         required: "密码不能为空",

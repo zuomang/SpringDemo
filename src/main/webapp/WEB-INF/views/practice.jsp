@@ -19,14 +19,18 @@
       </div>
       <div class="panel-body">
         <div class="row">
-          <div class="col-md-offset-1 col-md-9" id="question"></div>
+          <div class="col-md-offset-1 col-md-9" id="question">
+            <h5 id="question-title"></h5>
+            <div class="alert-info alert" role="alert" id="alert-explain" style="display: none"></div>
+          </div>
+          <div class="col-md-offset-1 col-md-9" id="expalin" style="display: none">
+            <p>test</p>
+          </div>
           <div class="col-md-2">
             <button type="button" class="btn btn-default btn-lg" id="next" aria-label="Left Align">
               <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
             </button>
           </div>
-        </div>
-        <div class="alert-info alert" role="alert" id="alert-explain" style="display: none;">
         </div>
       </div>
     </div>
@@ -43,27 +47,37 @@
   });
 
   $('#next').click(function() {
-    $('#question').empty();
-    if (questionId++ < 5) {
+    if (questionId++ < 4) {
       $('#next').attr("disabled", "disabled");
       $('#alert-explain').hide();
+      $('#option').remove();
+      $('#question').append(createTemp(questions.content[questionId]));
+    } else {
+      $('#question').hide();
+      $('#explain').show();
     }
-    $('#question').append(createTemp(questions.content[questionId]));
+
   });
 
   $('#question').on('click', '.list-group-item', function() {
     var value = $(this).data('value');
     var question = questions.content[questionId];
-    console.log(value, question.answer);
 
+    $("#option").remove();
     if(value == question.answer) {
-      console.log("this question is true");
-      $('#alert-explain').html(question.explain).show();
+      $('#alert-explain').html(
+              '<p>回答正确</p>' +
+              '<p>正确答案: 第<strong>' + question.answer + '</strong>选项</p>' +
+              '<p>' + question.explain + '</p>'
+      ).show();
     } else {
-      console.log("this question is error");
-      $('#alert-explain').html('<p>正确答案第' + question.answer + '选项</p>'
-        + '<p>' + question.explain + '</p>').show();
+      $('#alert-explain').html(
+              '<p>回答错误</p>' +
+              '<p>正确答案: 第<strong>' + question.answer + '</strong>选项</p>' +
+              '<p>' + question.explain + '</p>'
+      ).show();
     }
+
     $('#next').removeAttr("disabled");
   });
 
@@ -76,13 +90,10 @@
   });
 
   var createTemp = function(question) {
-    var outDiv = document.createElement("div");
-    outDiv.setAttribute("class", "row");
-    outDiv.setAttribute("data-questionId", question.id);
+    $("#question-title").text(question.question);
 
-    var h5 = document.createElement("h5");
-    h5.innerText = question.question;
-    outDiv.appendChild(h5);
+    var outDiv = document.createElement("div");
+    outDiv.setAttribute("id", "option");
 
     var ul = document.createElement("ul");
     ul.setAttribute("class", "list-group");

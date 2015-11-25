@@ -1,5 +1,6 @@
 package com.jpa.domain;
 
+import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,15 +20,19 @@ public class QuestionLibrary implements Serializable {
     public byte ID;
 
     @Column(name = "TITLE")
+    @NotNull
     public String title;
 
     @Column(name = "CONTENT")
+    @NotNull
     public String content;
 
     @Column(name = "COUNT_CHOICE")
+    @NotNull
     public short countChoice;
 
     @Column(name = "COUNT_OPINION")
+    @NotNull
     public short countOpinion;
 
     public QuestionLibrary() {

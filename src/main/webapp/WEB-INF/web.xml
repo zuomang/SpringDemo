@@ -2,7 +2,6 @@
 <web-app>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
 		<param-value>/WEB-INF/jdbc-bean.xml</param-value>
 	</context-param>
 
@@ -38,4 +37,13 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<session-config>
+		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using Tomcat) -->
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>home</welcome-file>
+	</welcome-file-list>
 </web-app>

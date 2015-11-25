@@ -53,7 +53,6 @@
 
     showErrors: function(errorMap, errorList) {
       var errorStrings="";
-      console.log(errorList.length);
       if (errorList.length > 0) {
         errorList.forEach(function(element, index, array) {
           errorStrings += "<li>" + element.message + "</li>";
@@ -63,10 +62,22 @@
         $(".alert-warning").hide();
       }
     },
-    submitHandler: function(form) {
-      form.submit();
-    },
 
+    submitHandler: function(form) {
+      var data = {
+        "name": $("#name").val(),
+        "password": $("#password").val()
+      };
+      $.post('/login', data, function(response) {
+        if (response.code == "E0000") {
+          console.log("login success");
+          location.href = response.message;
+        } else {
+          $(".alert-warning").html(response.message).show();
+          console.log("login error");
+        }
+      })
+    },
     rules: {
       name: {
         required: true,

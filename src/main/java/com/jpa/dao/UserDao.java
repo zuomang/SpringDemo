@@ -8,5 +8,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
  */
 public interface UserDao extends BaseDao<User, Integer> {
     Integer countByName(String name);
+    Integer countByEmail(String email);
+
     User findByName(String name);
 }

@@ -1,15 +1,20 @@
 package com.jpa.domain;
 
+import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Mang on 9/10/15.
  */
 @Entity
-@Table(name = "T_USER")
+@Table(
+        name = "T_USERS",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"USERNAME", "EMAIL"})
+)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,14 +25,41 @@ public class User implements Serializable {
     @GeneratedValue(generator = "idGenerator")
     private Integer id;
 
-    @Column(name = "NAME")
+    @Column(name = "USERNAME")
+    @NotNull
     private String name;
 
     @Column(name = "EMAIL")
+    @NotNull
     private String email;
 
     @Column(name = "PASSWORD")
+    @NotNull
     private String password;
+
+    @Column(name = "CREATE_TIME")
+    @NotNull
+    private Date createTime;
+
+    @Column(name = "UPDATE_TIME")
+    @NotNull
+    private Date updateTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

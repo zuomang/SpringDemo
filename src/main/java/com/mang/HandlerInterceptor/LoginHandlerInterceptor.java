@@ -37,10 +37,15 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
             }
         }
 
-        User user = (User)request.getSession().getAttribute("user");
+        Object user = request.getSession().getAttribute("user");
         if (user != null) {
             log.info("request session contains user");
             return true;
+        }
+
+        if (requestUrl.startsWith("/")) {
+            response.sendRedirect("/home");
+            return false;
         }
 
         RequestDispatcher view = request.getRequestDispatcher("/login");

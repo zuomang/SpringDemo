@@ -46,6 +46,7 @@
 						<value>/register</value>
 						<value>/logout</value>
 						<value>/index</value>
+						<value>/home</value>
 					</list>
 				</property>
 			</bean>

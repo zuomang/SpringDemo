@@ -15,37 +15,62 @@
           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:annotation-config />
-
     <context:component-scan base-package="com.jpa"/>
 
-    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:jdbc.properties</value>
-            </list>
-        </property>
-    </bean>
-
     <!--配置spring jpa数据源-->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-        <property name="url"
-                  value="jdbc:mysql://192.168.59.103:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"></property>
-        <property name="username" value="root"></property>
-        <property name="password" value="qwaszx12"></property>
+<!--     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="username" value="root" />
+        <property name="password" value="zmyjy1314" />
+        <property name="url" value="jdbc:mysql://192.168.59.103:3306/test?useUnicode=true&amp;characterEncoding=UTF-8" />
+    </bean> -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="user" value="root" />
+        <property name="password" value="zmyjy1314" />
+        <property name="jdbcUrl" value="jdbc:mysql://192.168.59.103:3306/test?useUnicode=true&amp;characterEncoding=UTF-8" />
+
+        <property name="minPoolSize" value="10" />
+        <property name="maxPoolSize" value="30" />
+        <property name="maxIdleTime" value="1800" />
+        <property name="acquireIncrement" value="3" />
+        <property name="maxStatements" value="1000" />
+        <property name="initialPoolSize" value="10" />
+        <property name="idleConnectionTestPeriod" value="600" />
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="breakAfterAcquireFailure" value="true" />
+        <property name="testConnectionOnCheckout" value="false" />
     </bean>
 
+    <!-- LocalEntityManagerFactoryBean 不能使用 spring 中定义的数据源，同时不支持 spring 提供的事务 -->
+    <!-- 从JNDI中获取：用于从Java EE服务器中获取指定的EntityManagerFactory，这种方式在Spring事务管理时一般要使用JTA事务管理 -->
+    <!-- LocalContainerEntityManagerFactoryBean：适用于所有环境的FactoryBean，能全面控制EntityManagerFactory配置，非常适合那种需要细粒度定制的环境 -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<!-- persistenceUnitManager：获取JPA持久化单元，默认实现DefaultPersistenceUnitManager用于解决多配置文件情况 -->
+    	<!-- dataSource：指定Spring定义的数据源 -->
+    	<!-- persistenceXmlLocation：指定JPA配置文件，对于多JPA配置文件情况请选择设置persistenceUnitManager属性来解决 -->
+    	<!-- persistenceUnitName：指定持久化单元名称  -->
+    	<!-- persistenceProvider：指定持久化实现厂商类 -->
+    	<!-- jpaVendorAdapter：设置JPA实现厂商的特定属性。厂商特定的属性最好在这里设置，最主要的属性为 database 指定使用的数据库类型-->
+    	<!-- jpaDialect：指定一些高级特性，如事务管理等，当指定jpaVendorAdapter属性时可以不指定jpaDialect，会自动设置相应的JpaDialect实现 -->
+    	<!-- jpaProperties和jpaPropertyMap：指定JPA属性 -->
+    	<!-- loadTimeWeaver：用于指定LoadTimeWeaver实现，从而允许JPA 加载时修改相应的类文件-->
         <property name="dataSource" ref="dataSource" />
-        <!--指定使用 hibernate 提供的 JPA 实现-->
-        <!--相比较META-INF 中设置的 persistence.xml 具有更高的优先级-->
+        <property name="packagesToScan" value="com.jpa.domain" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <!--<property name="generateDdl" value="true" />-->
+                <property name="generateDdl" value="false" />
                 <property name="database" value="MYSQL" />
             </bean>
         </property>
         <property name="persistenceUnitName" value="myJPA" />
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
     </bean>
 
     <!-- 配置事务管理器 -->

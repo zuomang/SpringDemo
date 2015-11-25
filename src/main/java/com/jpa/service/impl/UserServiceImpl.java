@@ -8,6 +8,8 @@ import com.jpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Created by Mang on 9/10/15.
  */
@@ -22,17 +24,26 @@ public class UserServiceImpl implements UserService{
         return count;
     }
 
+    public int checkByEmail(String email) {
+        int count = userDao.countByEmail(email);
+        return count;
+    }
+
     public void RegisterUser(User user) {
         user.setPassword(StringHandle.MD5Hashing(user.getPassword()));
-        userDao.save(user);
+        user.setCreateTime(new Date());
+        try {
+            userDao.save(user);
+        } catch (Exception e) {
+            System.out.println("asdfasdf ");
+        }
     }
 
     public User LoginByName(UserDto userDto) {
         User user = userDao.findByName(userDto.getName());
-        String userPasswrod = StringHandle.MD5Hashing(userDto.getPassword());
-        if (userPasswrod.equals(user.getPassword()))
-            return user;
-        else
-            return null;
+        String password = user.getPassword();
+        String inputPassword = StringHandle.MD5Hashing(userDto.getPassword());
+
+        return password.equals(inputPassword) ? user : null;
     }
 }
